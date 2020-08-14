@@ -163,7 +163,21 @@ var listOfBooks = function listOfBooks() {
 
 var addBooks = function addBooks(e) {
   e.preventDefault();
-  var title = event.target.item.value; // const html = `
+  var newBook = e.target;
+  var newTitle = newBook.title.value;
+  var author = newBook.author.value;
+  var genre = newBook.genre.value;
+  var pages = newBook.pages.value;
+  var status = newBook.status.value;
+  var item = {
+    title: newTitle,
+    author: author,
+    genre: genre,
+    pages: pages,
+    staturs: status
+  };
+  items.push(item);
+  console.log(items); // const html = `
   // <tr>
   //     <td>${title}</td>
   //     <td>${author}</td>

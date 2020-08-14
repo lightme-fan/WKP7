@@ -58,8 +58,23 @@ const listOfBooks = () => {
 // Handling add button 
 const addBooks = (e) => {
     e.preventDefault();
-    const title = event.target.item.value;
+    const newBook = e.target;
+    const newTitle = newBook.title.value;
+    const author = newBook.author.value;
+    const genre = newBook.genre.value;
+    const pages = newBook.pages.value;
+    const status = newBook.status.value;
 
+    const item = {
+        title: newTitle,
+        author: author,
+        genre: genre,
+        pages: pages,
+        staturs: status
+    }
+
+    items.push(item);
+    console.log(items);
     // const html = `
     // <tr>
     //     <td>${title}</td>
