@@ -118,7 +118,67 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   return newRequire;
 })({"script.js":[function(require,module,exports) {
+var books = [{
+  id: 'Litle woman',
+  title: 'Little woman',
+  author: 'Louisa',
+  genre: 'Romantic',
+  pages: 759,
+  status: false
+}, {
+  id: 'Harry Potter',
+  title: 'Harry Potter',
+  author: 'J.k Rowling',
+  genre: 'Fantasy fiction',
+  pages: 978,
+  status: true
+}, {
+  id: 'Educated',
+  title: 'Educated',
+  author: 'Tara Westover',
+  genre: 'Biography',
+  pages: 352,
+  status: true
+}];
+var form = document.querySelector('form');
+var input = form.querySelectorAll('input'); // const title = form.querySelectorAll('.title');
+// const author = form.querySelectorAll('.author');
+// const genre = form.querySelectorAll('.genre');
+// const pages = form.querySelectorAll('.pages');
 
+var select = form.querySelector('select');
+var bookList = document.querySelector('tbody');
+var addbutton = form.querySelector('.add-btn');
+var items = []; // Showing the list of books 
+
+var listOfBooks = function listOfBooks() {
+  // Filtering books by using spread method
+  var allBook = [].concat(books);
+  var html = allBook.map(function (book) {
+    return "\n        <tr>\n            <td>".concat(book.title, "</td>\n            <td>").concat(book.author, "</td>\n            <td>").concat(book.genre, "</td>\n            <td>").concat(book.pages, "</td>\n            <td><input type=\"checkbox\" name=\"").concat(book.author, "\" id=\"").concat(book.id, "\" ").concat(book.status ? 'checked' : '', "></td>\n            <td><button class=\"delete\">Delete</button></td>\n        </tr>  ");
+  }).join('');
+  bookList.innerHTML = html;
+}; // Handling add button 
+
+
+var addBooks = function addBooks(e) {
+  e.preventDefault(); // const html = `
+  // <tr>
+  //     <td>${title}</td>
+  //     <td>${author}</td>
+  //     <td>${genre}</td>
+  //     <td>${pages}</td>
+  //     <td><input type="checkbox" name="${title}" id="${title}" ${status ? 'checked' : ''}></td>
+  //     <td><button class="delete">Delete</button></td>
+  // </tr>  
+  // `;
+  // bookList.insertAdjacentHTML('beforeend', html);
+}; // Add event listener the listOFBook function
+
+
+window.addEventListener('DOMContentLoaded', listOfBooks); // Listening to the add button
+
+addbutton.addEventListener('click', addBooks);
 },{}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -147,7 +207,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62725" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54754" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -20,29 +20,32 @@
       <div class="fieldset">
         <div class="input_fields">
           <label for="title">Book title</label>
-          <input type="text" id="title" class="title" placeholder="Title">
+          <input type="text" id="title" class="title" data-title="title" placeholder="Title">
         </div>
 
         <div class="input_fields">
           <label for="author">Book author</label>
-          <input type="text" id="author" class="author" placeholder="Author">
+          <input type="text" id="author" class="author" data-author="author" placeholder="Author">
         </div>
 
         <div class="input_fields">
           <label for="genre">Book genre</label>
-          <input type="text" id="genre" class="genre" placeholder="Genre">
+          <input type="text" id="genre" class="genre" data-genre="genre" placeholder="Genre">
         </div>
 
         <div class="input_fields">
           <label for="pages">Book pages</label>
-          <input type="text" id="pages" class="pages" placeholder="Number of pages">
+          <input type="text" id="pages" class="pages" data-pages="pages" placeholder="Number of pages">
         </div>
 
         <div class="input_fields">
           <label for="status">Status</label>
-          <button class="status" id="status">Read</button>
+          <select class="status" data-status="status" id="status">
+            <option value="read">Read</option>
+            <option value="unread">Unread</option>
+            </select>
         </div>
-        <button type="submit" class="add">Add</button>
+        <button type="submit" class="add-btn">Add</button>
       </div>
     </form>
 
@@ -58,18 +61,12 @@
             <th></th>
           </tr>
         </thead>
+
         <tbody>
-          <!-- <tr>
-            <td>Harry potter</td>
-            <td>Poter</td>
-            <td>movie</td>
-            <td>435</td>
-            <td><input type="checkbox" name="checkbox_read" id="read"></td>
-            <td><button>Delete</button></td>
-          </tr> -->
         </tbody>
       </table>
     </div>
+
   </article>
   <script src="script.js"></script>
 </body>
