@@ -162,7 +162,8 @@ var listOfBooks = function listOfBooks() {
 
 
 var addBooks = function addBooks(e) {
-  e.preventDefault(); // const html = `
+  e.preventDefault();
+  var title = event.target.item.value; // const html = `
   // <tr>
   //     <td>${title}</td>
   //     <td>${author}</td>

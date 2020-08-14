@@ -58,7 +58,7 @@ const listOfBooks = () => {
 // Handling add button 
 const addBooks = (e) => {
     e.preventDefault();
-    
+    const title = event.target.item.value;
 
     // const html = `
     // <tr>
