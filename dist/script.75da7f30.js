@@ -160,7 +160,7 @@ var listOfBooks = function listOfBooks() {
   // Filtering books by using spread method
   var allBook = [].concat(books);
   var html = allBook.map(function (book) {
-    return "\n        <tr>\n            <td>".concat(book.title, "</td>\n            <td>").concat(book.author, "</td>\n            <td>").concat(book.genre, "</td>\n            <td>").concat(book.pages, "</td>\n            <td><input type=\"checkbox\" name=\"").concat(book.author, "\" ").concat(book.status ? 'checked' : '', "></td>\n            <td><button class=\"delete\" value=").concat(book.id, ">Delete</button></td>\n        </tr>  ");
+    return "\n        <tr>\n            <td>".concat(book.title, "</td>\n            <td>").concat(book.author, "</td>\n            <td>").concat(book.genre, "</td>\n            <td>").concat(book.pages, "</td>\n            <td><input type=\"checkbox\" name=\"").concat(book.author, "\" ").concat(book.status === 'read' ? 'checked' : '', "></td>\n            <td><button class=\"delete\" value=").concat(book.id, ">Delete</button></td>\n        </tr>  ");
   }).join('');
   bookList.innerHTML = html;
 }; // Handling add button 
@@ -169,16 +169,13 @@ var listOfBooks = function listOfBooks() {
 var addBooks = function addBooks(e) {
   e.preventDefault();
   var name = e.currentTarget;
-  var title = name.title.value;
-  var author = name.author.value;
-  var genre = name.genre.value;
-  var pages = name.pages.value;
   var item = {
     id: Date.now(),
-    title: title,
-    author: author,
-    genre: genre,
-    pages: pages
+    title: name.title.value,
+    author: name.author.value,
+    genre: name.genre.value,
+    pages: name.pages.value,
+    status: name.status.value
   };
   items.push(item);
   e.target.reset();
@@ -187,9 +184,27 @@ var addBooks = function addBooks(e) {
 
 var showingItems = function showingItems() {
   var html = items.map(function (book) {
-    return "\n        <tr>\n            <td>".concat(book.title, "</td>\n            <td>").concat(book.author, "</td>\n            <td>").concat(book.genre, "</td>\n            <td>").concat(book.pages, "</td>\n            <td><input type=\"checkbox\" name=\"").concat(book.author, "\" ").concat(book.status ? 'checked' : '', "></td>\n            <td><button class=\"delete\" value=").concat(book.id, ">Delete</button></td>\n        </tr> \n        ");
+    return "\n        <tr>\n            <td>".concat(book.title, "</td>\n            <td>").concat(book.author, "</td>\n            <td>").concat(book.genre, "</td>\n            <td>").concat(book.pages, "</td>\n            <td><input type=\"checkbox\" value=\"").concat(book.id, "\" ").concat(book.status === 'read' ? 'checked' : '', "></td>\n            <td><button class=\"delete\" value=").concat(book.id, ">Delete</button></td>\n        </tr> \n        ");
   }).join('');
   bookList.insertAdjacentHTML('beforeend', html);
+}; // Deleting items
+
+
+var deleteBook = function deleteBook(id) {
+  items = items.filter(function (item) {
+    return item.id == id;
+  });
+  console.log(items);
+}; // Mark as read
+
+
+var readBook = function readBook(id) {
+  console.log(id);
+  var itemStatus = items.find(function (item) {
+    return item.id === id;
+  });
+  itemStatus.status = !itemRef.status;
+  list.dispatchEvent(new CustomEvent('itemsUpdated'));
 }; // Storing the books to local storage
 
 
@@ -209,16 +224,6 @@ var storeFromLocal = function storeFromLocal() {
 
     bookList.dispatchEvent(new CustomEvent('bookUpdated'));
   }
-}; // Deleting items
-
-
-var deleteBook = function deleteBook(id) {
-  console.log('deleted', id);
-  items = items.filter(function (item) {
-    return item.id !== id;
-  });
-  bookList.dispatchEvent(new CustomEvent('bookUpdated'));
-  debugger;
 }; // Add event listener the listOFBook function
 
 
@@ -228,18 +233,19 @@ libraryForm.addEventListener('submit', addBooks); //
 
 bookList.addEventListener('bookUpdated', showingItems); //
 
+window.addEventListener('click', function (e) {
+  if (e.target.matches('button')) {
+    deleteBook(parseInt(e.target.value));
+  }
+
+  if (e.target.matches('input[type="checkbox"]')) {
+    readBook(parseInt(e.target.value));
+  }
+}); //
+
 bookList.addEventListener('bookUpdated', mirrorBook); //
 
-storeFromLocal(); // 
-
-bookList.addEventListener('click', function (e) {
-  if (e.target.matches('button')) {
-    deleteBook(e.target.value);
-  } // if (e.target.matches('input[type="checkbox"]')) {
-  // 	markAsComplete(id);
-  // }
-
-});
+storeFromLocal();
 },{}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -268,7 +274,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58067" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63466" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

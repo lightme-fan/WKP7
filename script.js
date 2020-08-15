@@ -41,7 +41,7 @@ const listOfBooks = () => {
             <td>${book.author}</td>
             <td>${book.genre}</td>
             <td>${book.pages}</td>
-            <td><input type="checkbox" name="${book.author}" ${book.status ? 'checked' : ''}></td>
+            <td><input type="checkbox" name="${book.author}" ${book.status === 'read' ? 'checked' : ''}></td>
             <td><button class="delete" value=${book.id}>Delete</button></td>
         </tr>  `
     ).join('');
@@ -52,18 +52,16 @@ const listOfBooks = () => {
 const addBooks = (e) => {
     e.preventDefault();
     const name = e.currentTarget;
-    const title = name.title.value;
-    const author = name.author.value;
-    const genre = name.genre.value;
-    const pages = name.pages.value;
 
     const item = {
         id: Date.now(),
-        title: title,
-        author: author,
-        genre: genre,
-        pages: pages,
+        title: name.title.value,
+        author: name.author.value,
+        genre: name.genre.value,
+        pages: name.pages.value,
+        status: name.status.value
     }
+
     items.push(item);
     e.target.reset();
 
@@ -78,12 +76,27 @@ const showingItems = () => {
             <td>${book.author}</td>
             <td>${book.genre}</td>
             <td>${book.pages}</td>
-            <td><input type="checkbox" name="${book.author}" ${book.status ? 'checked' : ''}></td>
+            <td><input type="checkbox" value="${book.id}" ${book.status === 'read' ? 'checked' : ''}></td>
             <td><button class="delete" value=${book.id}>Delete</button></td>
         </tr> 
         `    
     ).join('');
     bookList.insertAdjacentHTML('beforeend', html);
+}
+
+// Deleting items
+const deleteBook = (id) => {
+    items = items.filter(item => item.id == id);
+    console.log(items)
+}
+
+// Mark as read
+const readBook = (id) => {
+    console.log(id);
+    const itemStatus = items.find(item => item.id === id);
+    itemStatus.status = !itemRef.status;
+    list.dispatchEvent(new CustomEvent('itemsUpdated'));
+    
 }
 
 // Storing the books to local storage
@@ -101,14 +114,6 @@ const storeFromLocal = () => {
     }
 }
 
-// Deleting items
-const deleteBook = id => {
-    console.log('deleted', id);
-    items = items.filter(item => item.id !== id);
-    bookList.dispatchEvent(new CustomEvent('bookUpdated'))
-    debugger;
-}
-
 // Add event listener the listOFBook function
 window.addEventListener('DOMContentLoaded', listOfBooks);
 
@@ -119,18 +124,18 @@ libraryForm.addEventListener('submit', addBooks);
 bookList.addEventListener('bookUpdated', showingItems);
 
 //
+window.addEventListener('click', (e) => {
+    if (e.target.matches('button')) {
+        deleteBook(parseInt(e.target.value));
+    }
+
+    if (e.target.matches('input[type="checkbox"]')) {
+        readBook(parseInt(e.target.value));
+    }
+});
+
+//
 bookList.addEventListener('bookUpdated', mirrorBook);
 
 //
 storeFromLocal();
-
-// 
-bookList.addEventListener('click', (e) => {
-    if (e.target.matches('button')) {
-        deleteBook(e.target.value);
-    }
-
-    // if (e.target.matches('input[type="checkbox"]')) {
-	// 	markAsComplete(id);
-	// }
-});
