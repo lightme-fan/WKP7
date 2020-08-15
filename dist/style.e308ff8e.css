@@ -12,10 +12,12 @@ article {
     border-radius: 5px;
 }
 
-.fieldset {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+.form {
+    max-width: 300px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    text-align: end;
 }
 
 .input_fields {
