@@ -33,7 +33,7 @@ input {
     border-radius: 5px;
 }
 
-.status {
+select {
     background-color: antiquewhite;
     color: black;
     padding: 10px;
@@ -74,6 +74,6 @@ td {
     background-color: transparent;
     background-image: url('/img/trash.png');
     background-repeat: no-repeat;
-    background-position: 100%;
+    background-position: 50% 50%;
     background-size: 30px;
 }

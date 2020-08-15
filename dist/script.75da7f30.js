@@ -187,15 +187,7 @@ var showingItems = function showingItems() {
     return "\n        <tr>\n            <td>".concat(book.title, "</td>\n            <td>").concat(book.author, "</td>\n            <td>").concat(book.genre, "</td>\n            <td>").concat(book.pages, "</td>\n            <td><input type=\"checkbox\" value=\"").concat(book.id, "\" ").concat(book.status === 'read' ? 'checked' : '', "></td>\n            <td><button class=\"delete\" value=").concat(book.id, ">Delete</button></td>\n        </tr> \n        ");
   }).join('');
   bookList.insertAdjacentHTML('beforeend', html);
-}; // Deleting items
-
-
-var deleteBook = function deleteBook(id) {
-  items = items.filter(function (item) {
-    return item.id == id;
-  });
-  console.log(items);
-}; // Mark as read
+}; // If the book is read, checkbox is checked
 
 
 var readBook = function readBook(id) {
@@ -205,23 +197,28 @@ var readBook = function readBook(id) {
   });
   itemStatus.status = !itemRef.status;
   list.dispatchEvent(new CustomEvent('itemsUpdated'));
-}; // Storing the books to local storage
+}; // Deleting items
+
+
+var deleteBook = function deleteBook(id) {
+  var deleteItem = items.filter(function (item) {
+    return item.id !== id;
+  });
+  console.log(deleteItem.splice()); // bookList.dispatchEvent(new CustomEvent('bookUpdated'));
+}; // Stringifying the books in order to store the to local storage
 
 
 var mirrorBook = function mirrorBook() {
   var object = JSON.stringify(items);
   localStorage.setItem('items', object);
-}; //
+}; // Storing the objects to the local storage
 
 
 var storeFromLocal = function storeFromLocal() {
   var store = JSON.parse(localStorage.getItem('items'));
 
   if (store) {
-    var _items;
-
-    (_items = items).push.apply(_items, _toConsumableArray(store));
-
+    items.push.apply(items, _toConsumableArray(store));
     bookList.dispatchEvent(new CustomEvent('bookUpdated'));
   }
 }; // Add event listener the listOFBook function
@@ -229,21 +226,23 @@ var storeFromLocal = function storeFromLocal() {
 
 window.addEventListener('DOMContentLoaded', listOfBooks); // Listening for submit form
 
-libraryForm.addEventListener('submit', addBooks); //
+libraryForm.addEventListener('submit', addBooks); // Add event listener to add the new book to the tbody of the table
 
-bookList.addEventListener('bookUpdated', showingItems); //
+bookList.addEventListener('bookUpdated', showingItems); // Event listener for checkbox and delete button
 
 window.addEventListener('click', function (e) {
+  // Checkbox
+  if (e.target.matches('input[type="checkbox"]')) {
+    readBook(parseInt(e.target.value));
+  } // Delete button
+
+
   if (e.target.matches('button')) {
     deleteBook(parseInt(e.target.value));
   }
+}); // Event listener to mirror the books
 
-  if (e.target.matches('input[type="checkbox"]')) {
-    readBook(parseInt(e.target.value));
-  }
-}); //
-
-bookList.addEventListener('bookUpdated', mirrorBook); //
+bookList.addEventListener('bookUpdated', mirrorBook); // Event listener for storing the books to local storage
 
 storeFromLocal();
 },{}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
@@ -274,7 +273,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63466" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51389" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

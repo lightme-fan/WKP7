@@ -84,13 +84,7 @@ const showingItems = () => {
     bookList.insertAdjacentHTML('beforeend', html);
 }
 
-// Deleting items
-const deleteBook = (id) => {
-    items = items.filter(item => item.id == id);
-    console.log(items)
-}
-
-// Mark as read
+// If the book is read, checkbox is checked
 const readBook = (id) => {
     console.log(id);
     const itemStatus = items.find(item => item.id === id);
@@ -99,13 +93,20 @@ const readBook = (id) => {
     
 }
 
-// Storing the books to local storage
+// Deleting items
+const deleteBook = (id) => {
+    const deleteItem = items.filter(item => item.id !== id);
+    console.log(deleteItem.splice())
+    // bookList.dispatchEvent(new CustomEvent('bookUpdated'));
+}
+
+// Stringifying the books in order to store the to local storage
 const mirrorBook = () => {
     const object = JSON.stringify(items)
     localStorage.setItem('items', object);
 }
 
-//
+// Storing the objects to the local storage
 const storeFromLocal = () => {
     const store = JSON.parse(localStorage.getItem('items'));
     if (store) {
@@ -120,22 +121,24 @@ window.addEventListener('DOMContentLoaded', listOfBooks);
 // Listening for submit form
 libraryForm.addEventListener('submit', addBooks);
 
-//
+// Add event listener to add the new book to the tbody of the table
 bookList.addEventListener('bookUpdated', showingItems);
 
-//
+// Event listener for checkbox and delete button
 window.addEventListener('click', (e) => {
-    if (e.target.matches('button')) {
-        deleteBook(parseInt(e.target.value));
-    }
-
+    // Checkbox
     if (e.target.matches('input[type="checkbox"]')) {
         readBook(parseInt(e.target.value));
     }
+
+    // Delete button
+    if (e.target.matches('button')) {
+        deleteBook(parseInt(e.target.value));
+    }
 });
 
-//
+// Event listener to mirror the books
 bookList.addEventListener('bookUpdated', mirrorBook);
 
-//
+// Event listener for storing the books to local storage
 storeFromLocal();
