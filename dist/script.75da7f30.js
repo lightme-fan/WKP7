@@ -154,17 +154,7 @@ var books = [{
 }];
 var libraryForm = document.querySelector('.form');
 var bookList = document.querySelector('tbody');
-var items = []; // Showing the list of books 
-
-var listOfBooks = function listOfBooks() {
-  // Filtering books by using spread method
-  var allBook = [].concat(books);
-  var html = allBook.map(function (book) {
-    return "\n        <tr>\n            <td>".concat(book.title, "</td>\n            <td>").concat(book.author, "</td>\n            <td>").concat(book.genre, "</td>\n            <td>").concat(book.pages, "</td>\n            <td><input type=\"checkbox\" name=\"").concat(book.author, "\" ").concat(book.status === 'read' ? 'checked' : '', "></td>\n            <td><button class=\"delete\" value=").concat(book.id, ">Delete</button></td>\n        </tr>  ");
-  }).join('');
-  bookList.innerHTML = html;
-}; // Handling add button 
-
+var items = []; // Handling add button 
 
 var addBooks = function addBooks(e) {
   e.preventDefault();
@@ -180,13 +170,14 @@ var addBooks = function addBooks(e) {
   items.push(item);
   e.target.reset();
   bookList.dispatchEvent(new CustomEvent('bookUpdated'));
-};
+}; // Showing the items to the table list
+
 
 var showingItems = function showingItems() {
   var html = items.map(function (book) {
-    return "\n        <tr>\n            <td>".concat(book.title, "</td>\n            <td>").concat(book.author, "</td>\n            <td>").concat(book.genre, "</td>\n            <td>").concat(book.pages, "</td>\n            <td><input type=\"checkbox\" value=\"").concat(book.id, "\" ").concat(book.status === 'read' ? 'checked' : '', "></td>\n            <td><button class=\"delete\" value=").concat(book.id, ">Delete</button></td>\n        </tr> \n        ");
+    return "\n        <tr>\n            <td>".concat(book.title, "</td>\n            <td>").concat(book.author, "</td>\n            <td>").concat(book.genre, "</td>\n            <td>").concat(book.pages, "</td>\n            <td><input type=\"checkbox\" value=\"").concat(book.id, "\" ").concat(book.status === 'read' ? 'checked' : '', "></td>\n            <td><button class=\"delete\" aria-label=\"Remove ").concat(book.tile, "\" value=").concat(book.id, ">Delete</button></td>\n        </tr> \n        ");
   }).join('');
-  bookList.insertAdjacentHTML('beforeend', html);
+  bookList.innerHTML = html;
 }; // If the book is read, checkbox is checked
 
 
@@ -195,16 +186,17 @@ var readBook = function readBook(id) {
   var itemStatus = items.find(function (item) {
     return item.id === id;
   });
-  itemStatus.status = !itemRef.status;
-  list.dispatchEvent(new CustomEvent('itemsUpdated'));
+  itemStatus.status = !itemStatus.status;
+  bookList.dispatchEvent(new CustomEvent('itemsUpdated'));
 }; // Deleting items
 
 
-var deleteBook = function deleteBook(id) {
-  var deleteItem = items.filter(function (item) {
+var deleteItem = function deleteItem(id) {
+  console.log('id: ', id);
+  items = items.filter(function (item) {
     return item.id !== id;
   });
-  console.log(deleteItem.splice()); // bookList.dispatchEvent(new CustomEvent('bookUpdated'));
+  bookList.dispatchEvent(new CustomEvent('itemsUpdated'));
 }; // Stringifying the books in order to store the to local storage
 
 
@@ -215,36 +207,47 @@ var mirrorBook = function mirrorBook() {
 
 
 var storeFromLocal = function storeFromLocal() {
-  var store = JSON.parse(localStorage.getItem('items'));
+  var array = JSON.parse(localStorage.getItem('items')); // If array is truthy, push the array into items.
 
-  if (store) {
-    items.push.apply(items, _toConsumableArray(store));
+  if (array) {
+    var _items;
+
+    (_items = items).push.apply(_items, _toConsumableArray(array));
+
     bookList.dispatchEvent(new CustomEvent('bookUpdated'));
-  }
-}; // Add event listener the listOFBook function
+  } // If array is not truthy, push the books.
+  else {
+      var _items2;
+
+      (_items2 = items).push.apply(_items2, books);
+
+      mirrorBook();
+      bookList.dispatchEvent(new CustomEvent('bookUpdated'));
+    }
+}; // Add event listener the showing items function
 
 
-window.addEventListener('DOMContentLoaded', listOfBooks); // Listening for submit form
+window.addEventListener('DOMContentLoaded', showingItems); // Listening for submit form
 
 libraryForm.addEventListener('submit', addBooks); // Add event listener to add the new book to the tbody of the table
 
-bookList.addEventListener('bookUpdated', showingItems); // Event listener for checkbox and delete button
+bookList.addEventListener('bookUpdated', showingItems); // Event listener to mirror the books
 
-window.addEventListener('click', function (e) {
+bookList.addEventListener('bookUpdated', mirrorBook); // Event listener for storing the books to local storage
+
+storeFromLocal(); // Event listener for checkbox and delete button
+
+bookList.addEventListener('click', function (e) {
   // Checkbox
   if (e.target.matches('input[type="checkbox"]')) {
     readBook(parseInt(e.target.value));
   } // Delete button
 
 
-  if (e.target.matches('button')) {
-    deleteBook(parseInt(e.target.value));
+  if (e.target.matches('button.delete')) {
+    deleteItem(parseInt(e.target.value));
   }
-}); // Event listener to mirror the books
-
-bookList.addEventListener('bookUpdated', mirrorBook); // Event listener for storing the books to local storage
-
-storeFromLocal();
+});
 },{}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -273,7 +276,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51389" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50024" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
