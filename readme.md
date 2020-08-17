@@ -1,35 +1,26 @@
 # WKP7 - Library
 
-### Hey team!
+### My steps
 
-Hope you are ready for a new challenge. I have a nice one for you this week. We're going to build a library management application. The application will consist on a form to add a book, and a table listing all the books. After submitting the form, the new book will appear on the book table.
+1. I declare three books to be stored in the local when nobody adds a new book.
+2. I grabbed those elements which I needed to use.
+3. I declared an empty array called **items**.
+4. I created a function to generate the form. Inside of this I declare a new object template and push it to the **items** array.
+5. I mapped the **items** to add a new book. And I listen for form submit to add a new book.
+6. I set the **items** to the local storage. To do that, I had to stringify the **object** inside of the **item**. Then I stored it there. When the user add a new books, the three books and the new one is there. Although the users don't add, the three books is always stored to the list.
+7. I set an iternary condition in html template for the checkbox. When the user select the status as read, the checkbox is checked. Contrary, it is not checked. I tried to work on when the book is alread stored in the list, the user can check the checkbox after they have read the book. But it still doesn't work.
+8. About the delete button. I set an id as a parameter of the deleteItem function. And filter the items to remove an item. But when I compare the items.id and id parameter, they don't match to each other. So I did get the delete buttons work.
 
-### Here is the mockup of our library app.
+### If I had more time, I would have got the checkbox and delete button work properly as expected.
 
-![assets/wkp7-library.png](assets/wkp7-library.png)
+### I learnt a lot from this project.
+- I konw how important to store things in local storage is. But I need to careful though.
+- I know the use of **pareInt**.
 
-[You can also access the design through figma.](https://www.figma.com/file/FoD2jZb5oOGZvTUMop0nbA/WKP7?node-id=1%3A2)
+### The most challenging
+- To get the delete button and checkbox work.
+- To store the books to the local storage.
 
-### A book needs those attributes :
+### Even if I undersdant how to set an array objet to the local, I sitll want more clarificationabout it.
 
--   A title
--   An author
--   A genre (Mystery, Thriller, Fiction, Non-fiction, Fantasy, Design, Memoirs...)
--   A number of pages
--   A status (Read or not)
-
-### Requirements :
-
--   When users load the app for the first time, a list of 3 books minimum should already be present on the list. The list will always be generated dynamically with some state in the javascript.
--   Users should be able to change the read attribute status by clicking the checkbox (and the changes will be reflected in the app state)
--   Users should be able to delete a book from the list by clicking the trash icon (and reflect that in the app state as well)
--   When a user come back to the app with the same browser, they should see the same book list as it was, before they left the app. Save the current book list to your browser's _Local Storage_.
-
-### Tips :
-
--   Focus on the features first, and if you have some time left, try to replicate this design.
--   Start by choosing the book data structure, and create a few of them in the code.
--   Focus on your basic app functionality first, and then try to save the state of your app to _Local Storage_.
--   I suggest you to look back to the Shopping List exercise we did together (Video 57). There is a lot of similarities between the exercise and this project 😉
-
-### Good luck team 🙌
+## I enjoyed this challenge. Thank you so much!

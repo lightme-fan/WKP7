@@ -1,3 +1,4 @@
+// Declaring three books
 const books = [
     {
         id: Date.now(), 
@@ -5,7 +6,7 @@ const books = [
         author: 'Louisa',
         genre: 'Romantic',
         pages: 759,
-        status: false,
+        status: 'read',
     },
     {
         id: Date.now(),
@@ -13,7 +14,7 @@ const books = [
         author: 'J.k Rowling',
         genre: 'Fantasy fiction',
         pages: 978,
-        status: true,
+        status: 'unread',
     },
     {
         id: Date.now(),
@@ -21,10 +22,11 @@ const books = [
         author: 'Tara Westover',
         genre: 'Biography',
         pages: 352,
-        status: true,
+        status: 'unread',
     }
 ];
 
+// Grabing the elements which I need 
 const libraryForm = document.querySelector('.form');
 const bookList = document.querySelector('tbody');
 
@@ -67,23 +69,6 @@ const showingItems = () => {
     bookList.innerHTML = html;
 }
 
-// If the book is read, checkbox is checked
-const readBook = (id) => {
-    console.log(id);
-    const itemStatus = items.find(item => item.id === id);
-    itemStatus.status = !itemStatus.status;
-    bookList.dispatchEvent(new CustomEvent('itemsUpdated'));
-}
-
-// Deleting items
-const deleteItem = (id) => {
-    console.log('id: ', id)
-    items = items.filter(item => {
-        return item.id !== id;
-    });
-    bookList.dispatchEvent(new CustomEvent('itemsUpdated'));
-}
-
 // Stringifying the books in order to store the to local storage
 const mirrorBook = () => {
     const object = JSON.stringify(items)
@@ -105,6 +90,22 @@ const storeFromLocal = () => {
         bookList.dispatchEvent(new CustomEvent('bookUpdated'))
     }
 }
+
+// If the book is read, checkbox is checked
+const readBook = (id) => {
+    const itemStatus = items.find(item => item.id === id);
+    itemStatus.status = !itemStatus.status;
+    bookList.dispatchEvent(new CustomEvent('itemsUpdated'));
+}
+
+// Deleting items
+// const deleteItem = (id) => {
+//     const removeItem = items.filter(item => {
+//         return item.id !== id;
+//     });
+//     removeItem.splice();
+//     bookList.dispatchEvent(new CustomEvent('itemsUpdated'));
+// }
 
 // Add event listener the showing items function
 window.addEventListener('DOMContentLoaded', showingItems);
@@ -130,7 +131,11 @@ bookList.addEventListener('click', (e) => {
 
     // Delete button
     if (e.target.matches('button.delete')) {
-        deleteItem(parseInt(e.target.value));
+        // deleteItem(parseInt(e.target.value));
+
+        // I use this method because the similar method to the shopping list does not work. Unfortunateley I cannot delete the item from the local storage 
+        const aBook = e.target.closest('tr');
+        aBook.remove();
     }
 });
 

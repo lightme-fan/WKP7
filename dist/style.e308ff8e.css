@@ -69,6 +69,10 @@ td {
     padding-bottom: 10px;
 }
 
+input[type=checkbox]:checked {
+    background-color: green;
+}
+
 .delete {
     color: transparent;
     background-color: transparent;
@@ -76,6 +80,10 @@ td {
     background-repeat: no-repeat;
     background-position: 50% 50%;
     background-size: 30px;
+}
+
+.delete:focus {
+    outline: none;
 }
 
 /*# sourceMappingURL=/style.e308ff8e.css.map */

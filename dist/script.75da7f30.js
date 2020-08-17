@@ -130,28 +130,30 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
+// Declaring three books
 var books = [{
   id: Date.now(),
   title: 'Little woman',
   author: 'Louisa',
   genre: 'Romantic',
   pages: 759,
-  status: false
+  status: 'read'
 }, {
   id: Date.now(),
   title: 'Harry Potter',
   author: 'J.k Rowling',
   genre: 'Fantasy fiction',
   pages: 978,
-  status: true
+  status: 'unread'
 }, {
   id: Date.now(),
   title: 'Educated',
   author: 'Tara Westover',
   genre: 'Biography',
   pages: 352,
-  status: true
-}];
+  status: 'unread'
+}]; // Grabing the elements which I need 
+
 var libraryForm = document.querySelector('.form');
 var bookList = document.querySelector('tbody');
 var items = []; // Handling add button 
@@ -178,25 +180,6 @@ var showingItems = function showingItems() {
     return "\n        <tr>\n            <td>".concat(book.title, "</td>\n            <td>").concat(book.author, "</td>\n            <td>").concat(book.genre, "</td>\n            <td>").concat(book.pages, "</td>\n            <td><input type=\"checkbox\" value=\"").concat(book.id, "\" ").concat(book.status === 'read' ? 'checked' : '', "></td>\n            <td><button class=\"delete\" aria-label=\"Remove ").concat(book.tile, "\" value=").concat(book.id, ">Delete</button></td>\n        </tr> \n        ");
   }).join('');
   bookList.innerHTML = html;
-}; // If the book is read, checkbox is checked
-
-
-var readBook = function readBook(id) {
-  console.log(id);
-  var itemStatus = items.find(function (item) {
-    return item.id === id;
-  });
-  itemStatus.status = !itemStatus.status;
-  bookList.dispatchEvent(new CustomEvent('itemsUpdated'));
-}; // Deleting items
-
-
-var deleteItem = function deleteItem(id) {
-  console.log('id: ', id);
-  items = items.filter(function (item) {
-    return item.id !== id;
-  });
-  bookList.dispatchEvent(new CustomEvent('itemsUpdated'));
 }; // Stringifying the books in order to store the to local storage
 
 
@@ -210,21 +193,32 @@ var storeFromLocal = function storeFromLocal() {
   var array = JSON.parse(localStorage.getItem('items')); // If array is truthy, push the array into items.
 
   if (array) {
-    var _items;
-
-    (_items = items).push.apply(_items, _toConsumableArray(array));
-
+    items.push.apply(items, _toConsumableArray(array));
     bookList.dispatchEvent(new CustomEvent('bookUpdated'));
   } // If array is not truthy, push the books.
   else {
-      var _items2;
-
-      (_items2 = items).push.apply(_items2, books);
-
+      items.push.apply(items, books);
       mirrorBook();
       bookList.dispatchEvent(new CustomEvent('bookUpdated'));
     }
-}; // Add event listener the showing items function
+}; // If the book is read, checkbox is checked
+
+
+var readBook = function readBook(id) {
+  var itemStatus = items.find(function (item) {
+    return item.id === id;
+  });
+  itemStatus.status = !itemStatus.status;
+  bookList.dispatchEvent(new CustomEvent('itemsUpdated'));
+}; // Deleting items
+// const deleteItem = (id) => {
+//     const removeItem = items.filter(item => {
+//         return item.id !== id;
+//     });
+//     removeItem.splice();
+//     bookList.dispatchEvent(new CustomEvent('itemsUpdated'));
+// }
+// Add event listener the showing items function
 
 
 window.addEventListener('DOMContentLoaded', showingItems); // Listening for submit form
@@ -245,7 +239,10 @@ bookList.addEventListener('click', function (e) {
 
 
   if (e.target.matches('button.delete')) {
-    deleteItem(parseInt(e.target.value));
+    // deleteItem(parseInt(e.target.value));
+    // I use this method because the similar method to the shopping list does not work. Unfortunateley I cannot delete the item from the local storage 
+    var aBook = e.target.closest('tr');
+    aBook.remove();
   }
 });
 },{}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
@@ -276,7 +273,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50024" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60560" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
